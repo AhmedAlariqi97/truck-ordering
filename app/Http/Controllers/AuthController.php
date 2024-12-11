@@ -76,16 +76,9 @@ class AuthController extends Controller
             $newUser->email = $request->email;
             $newUser->phone = $request->phone;
             $newUser->password = Hash::make($request->password);
+            
+
             $newUser->save();
-
-            // Assuming you have a role_id to assign, for example, 1 for a regular user
-            $roleId = 2; // Change this as needed
-
-            // Insert into user_role table
-            DB::table('role_user')->insert([
-                'user_id' => $newUser->id,
-                'role_id' => $roleId
-            ]);
 
             session()->flash('success','Register successfully');
 
