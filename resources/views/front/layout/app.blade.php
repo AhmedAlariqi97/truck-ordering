@@ -109,49 +109,7 @@
                 }
         });
 
-        // add to cart
-        function addToCart(id) {
-
-            $.ajax({
-                url: '{{ route("front.addToCart") }}',
-                type: 'post',
-                data: {id:id},
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status == true){
-                        window.location.href= "{{ route('front.cart') }}";
-                    } else {
-                        alert(response.message);
-                    }
-
-                }
-
-            });
-        }
-
-        // add to cart
-        function addToWishlist(id) {
-
-            $.ajax({
-                url: '{{ route("account.addToWishlist") }}',
-                type: 'post',
-                data: {id:id},
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status == true){
-
-                        $("#wishlistModal").modal('show');
-                        $("#wishlistModal .modal-body").html(response.message);
-                        // window.location.href= "{{ route('account.wishlist') }}";
-                    } else {
-                         window.location.href= "{{ route('auth.login') }}";
-                        // alert(response.message);
-                    }
-
-                }
-
-            });
-        }
+        
 
     </script>
     @yield('customjs')

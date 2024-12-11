@@ -18,14 +18,7 @@
             <a href="{{ route('auth.register') }}" class="nav-link text-dark">Register</a>
             @endif
 
-				<form action="{{ route('front.shop') }}" method="get">
-					<div class="input-group">
-						<input value="{{ Request::get('search') }}" type="text" class="form-control" name="search" id="search" placeholder="Search For Products">
-						<button type="submit" class="input-group-text">
-							<i class="fa fa-search"></i>
-					  	</button>
-					</div>
-				</form>
+				
 			</div>
 		</div>
 	</div>
@@ -48,23 +41,7 @@
           				<a class="nav-link active" aria-current="page" href="index.php" title="Products">Home</a>
         			</li> -->
 
-                    @if(getCategories()->isNotEmpty())
-                    @foreach(getCategories() as $category)
-                    <li class="nav-item dropdown">
-						<button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-							{{ $category->name }}
-						</button>
-
-                        @if($category->sub_category->isNotEmpty())
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                        @foreach($category->sub_category as $subcategory)
-                        <li><a class="dropdown-item nav-link" href="{{ route('front.shop',[$category->slug,$subcategory->slug]) }}">{{ $subcategory->name }}</a></li>
-                        @endforeach
-                        </ul>
-                        @endif
-					</li>
-                    @endforeach
-                    @endif
+                    
 
 					<!-- <li class="nav-item dropdown">
 						<button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -110,32 +87,10 @@
       			</ul>
       		</div>
 			<div class="d-flex py-0">
-                <div class="right-nav-heart mx-3">
-                    @if (Auth::check())
-                        <a href="{{route('account.wishlist') }}" class="ml-3 d-flex pt-2">
-                            <span class="heart-numbers">{{ getWishlistItemsNumber() }}</span>
-                            <i class="fas fa-heart text-primary"></i>
-                        </a>
-                    @else
-                        <a href="{{route('account.wishlist') }}" class="ml-3 d-flex pt-2">
-                            <span class="heart-numbers">0</span>
-                            <i class="fas fa-heart text-primary"></i>
-                        </a>
-                    @endif
-                </div>
+                
 
                 <div class="right-nav-cart">
-                    @if (Auth::check())
-                        <a href="{{route('front.cart') }}" class="ml-3 d-flex pt-2">
-                            <span class="cart-numbers">{{ getCartItemsNumber() }}</span>
-                            <i class="fas fa-shopping-cart text-primary"></i>
-                        </a>
-                    @else
-                        <a href="{{route('front.cart') }}" class="ml-3 d-flex pt-2">
-                            <span class="cart-numbers">0</span>
-                            <i class="fas fa-shopping-cart text-primary"></i>
-                        </a>
-                    @endif
+                    
                 </div>
 
 

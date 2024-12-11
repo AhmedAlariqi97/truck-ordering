@@ -102,25 +102,7 @@
                 <h2>Categories</h2>
             </div>
             <div class="row pb-3">
-                @if(getCategories()->isNotEmpty())
-                @foreach(getCategories() as $category)
-                <div class="col-lg-3">
-                    <div class="cat-card">
-                        <div class="left">
-                            @if($category->image != "")
-                            <img src="{{ asset('upload/category/thumb/'.$category->image) }}" alt="" class="img-fluid">
-                            @endif
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h2>{{ $category->name }}</h2>
-                                <p>100 Products</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-                @endif
+               
 
                 <!-- <div class="col-lg-3">
                     <div class="cat-card">
@@ -223,73 +205,7 @@
                 <h2>Featured Products</h2>
             </div>
             <div class="row pb-3">
-            @if($featureProducts->isNotEmpty())
-                @foreach($featureProducts as $product)
-                @php
-                    $productImage = $product->product_images->first();
-                @endphp
-                <div class="col-md-3">
-                    <div class="card product-card">
-                        <div class="product-image position-relative">
-                            <a href="{{ route('front.product', $product->slug) }}" class="product-img">
-                            @if (!empty($productImage->image))
-                               <img class="card-img-top"
-                                   src="{{ asset('upload/product/large/'.$productImage->image) }}" alt="">
-                            @else
-                                <img class="card-img-top"
-                                     src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="">
-                            @endif
-
-                            </a>
-                            @if (Auth::check())
-                                <a class="whishlist" href="javascript:void(0)" onclick="addToWishlist({{ $product->id }});">
-                                   <i class="far fa-heart"></i></a>
-
-                            @else
-                                <a class="whishlist" href="{{ route('auth.login') }}">
-                                   <i class="far fa-heart"></i></a>
-                            @endif
-
-                            <div class="product-action">
-                                 @if (Auth::check())
-
-                                    @if ($product->track_qty == 'Yes')
-                                        @if ($product->qty > 0)
-                                            <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $product->id }});">
-                                                <i class="fa fa-shopping-cart"></i> Add To Cart
-                                            </a>
-                                        @else
-                                            <a class="btn btn-dark" href="javascript:void(0);">
-                                                    <i class="fa fa-shopping-cart"></i> Out of Stock
-                                                </a>
-                                        @endif
-                                    @else
-                                          <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $product->id }});">
-                                                <i class="fa fa-shopping-cart"></i> Add To Cart
-                                            </a>
-
-                                    @endif
-
-                                @else
-                                <a class="btn btn-dark" href="{{ route('auth.login') }}">
-                                    <i class="fa fa-shopping-cart"></i> Add To Cart
-                                </a>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="card-body text-center mt-3">
-                            <a class="h6 link" href="product.php">{{ $product->title }}</a>
-                            <div class="price mt-2">
-                                <span class="h5"><strong>${{ $product->price }}</strong></span>
-                                @if($product->compare_price > 0)
-                                <span class="h6 text-underline"><del>${{ $product->compare_price }}</del></span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            @endif
+           
 
             </div>
         </div>
@@ -301,60 +217,7 @@
                 <h2>Latest Produsts</h2>
             </div>
             <div class="row pb-3">
-            @if($latestProducts->isNotEmpty())
-                @foreach($latestProducts as $product)
-                @php
-                    $productImage = $product->product_images->first();
-                @endphp
-                <div class="col-md-3">
-                    <div class="card product-card">
-                        <div class="product-image position-relative">
-                            <a href="{{ route('front.product', $product->slug) }}" class="product-img">
-                            @if (!empty($productImage->image))
-                               <img class="card-img-top"
-                                   src="{{ asset('upload/product/large/'.$productImage->image) }}" alt="">
-                            @else
-                                <img class="card-img-top"
-                                     src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="">
-                            @endif
-
-                            </a>
-
-                            @if (Auth::check())
-                                <a class="whishlist" href="javascript:void(0)" onclick="addToWishlist({{ $product->id }});">
-                                   <i class="far fa-heart"></i></a>
-
-                            @else
-                                <a class="whishlist" href="{{ route('auth.login') }}">
-                                   <i class="far fa-heart"></i></a>
-                            @endif
-
-                            <div class="product-action">
-                                @if (Auth::check())
-                                <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $product->id }});">
-                                    <i class="fa fa-shopping-cart"></i> Add To Cart
-                                </a>
-
-                                @else
-                                <a class="btn btn-dark" href="{{ route('auth.login') }}">
-                                    <i class="fa fa-shopping-cart"></i> Add To Cart
-                                </a>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="card-body text-center mt-3">
-                            <a class="h6 link" href="product.php">{{ $product->title }}</a>
-                            <div class="price mt-2">
-                                <span class="h5"><strong>${{ $product->price }}</strong></span>
-                                @if($product->compare_price > 0)
-                                <span class="h6 text-underline"><del>${{ $product->compare_price }}</del></span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            @endif
+           
             </div>
         </div>
     </section>

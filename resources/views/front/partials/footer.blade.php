@@ -15,11 +15,7 @@
 				<div class="footer-card">
 					<h3>Important Links</h3>
 					<ul>
-                        @if(staticPages()->isNotEmpty())
-                            @foreach(staticPages() as $page)
-						        <li><a href="{{ route('front.page',$page->slug) }}" title="{{ $page->name }}">{{ $page->name }}</a></li>
-                            @endforeach
-                        @endif
+                        
 					</ul>
 				</div>
 			</div>
