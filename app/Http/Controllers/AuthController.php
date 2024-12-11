@@ -29,27 +29,29 @@ class AuthController extends Controller
            'password' => 'required'
         ]);
 
-       
+        if($validator->passes()) {
 
-        // Attempt to log the user in
-        if (Auth::attempt($request->only('email', 'password'))) {
-            // Authentication passed
-            $user = Auth::user(); // Get the authenticated user
+            if(Auth::attempt(['email' => $request->email,'password'=>
+                 $request->password],$request->get('remember'))) {
 
-            // Check the user's role
-            if ($user->hasRole('admin')) {
-                return redirect()->route('admin.dashboard'); // Redirect to admin dashboard
-            } else {
-                return redirect()->route('front.home'); // Redirect to home for other roles
+                    // get session url when user click on btn
+                    if (session()->has('url.intended')) {
+                        return redirect(session()->get('url.intended'));
+                    }
+
+                    return redirect()->route('account.profile');
             }
+            else {
+                return redirect()->route('auth.login')
+                ->withInput($request->only('email'))
+                ->with('error','Either Email/Password is incorrect');
+            }
+
+        } else {
+            return redirect()->route('auth.login')
+                ->withErrors($validator)
+                ->withInput($request->only('email'));
         }
-
-        // If authentication fails, redirect back with an error
-        return redirect()->back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
-
-        
     }
 
     public function register() {
