@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ]);
-        $user->addRole('super_admin');
+        $user->addRole('admin');
         $user = User::create([
             'name' => 'truck order',
             'email' => 'truckorder@gmail.com',
