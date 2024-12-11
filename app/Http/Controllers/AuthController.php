@@ -29,29 +29,63 @@ class AuthController extends Controller
            'password' => 'required'
         ]);
 
-        if($validator->passes()) {
+        if (auth()->user()->hasRole('client')) {
+            // Logic for client
+            if($validator->passes()) {
 
-            if(Auth::attempt(['email' => $request->email,'password'=>
-                 $request->password],$request->get('remember'))) {
-
-                    // get session url when user click on btn
-                    if (session()->has('url.intended')) {
-                        return redirect(session()->get('url.intended'));
-                    }
-
-                    return redirect()->route('account.profile');
-            }
-            else {
+                if(Auth::attempt(['email' => $request->email,'password'=>
+                     $request->password],$request->get('remember'))) {
+    
+                        // get session url when user click on btn
+                        if (session()->has('url.intended')) {
+                            return redirect(session()->get('url.intended'));
+                        }
+    
+                        return redirect()->route('account.profile');
+                }
+                else {
+                    return redirect()->route('auth.login')
+                    ->withInput($request->only('email'))
+                    ->with('error','Either Email/Password is incorrect');
+                }
+    
+            } else {
                 return redirect()->route('auth.login')
-                ->withInput($request->only('email'))
-                ->with('error','Either Email/Password is incorrect');
+                    ->withErrors($validator)
+                    ->withInput($request->only('email'));
             }
+        } elseif (auth()->user()->hasRole('admin')) {
+            // Logic for admin
 
-        } else {
-            return redirect()->route('auth.login')
-                ->withErrors($validator)
-                ->withInput($request->only('email'));
+            if($validator->passes()) {
+
+                if(Auth::guard('admin')->attempt(['email' => $request->email,'password'=>
+                $request->password],$request->get('remember'))) {
+    
+                    $admin = Auth::guard('admin')->user();
+    
+                    if($admin->role == 1) {
+                        return redirect()->route('admin.dashboard');
+                    } else {
+    
+                        Auth::guard('admin')->logout();
+                        return redirect()->route('admin.login')->with('error','You are not authorized to access admin panel');
+                    }
+    
+    
+                }
+                else {
+                    return redirect()->route('admin.login')->with('error','Either Email/Password is incorrect');
+                }
+    
+            } else {
+                return redirect()->route('admin.login')
+                    ->withErrors($validator)
+                    ->withInput($request->only('email'));
+            }
         }
+
+        
     }
 
     public function register() {
