@@ -68,8 +68,10 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
+    
+
     protected $routeMiddleware = [
         // Other middleware...
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'admin.guest' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
     ];
 }

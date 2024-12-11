@@ -72,7 +72,7 @@ Route::group(['prefix' => '/auth'], function(){
 });
 
 
-Route::group(['prefix' => '/admin.auth'], function(){
+Route::group(['prefix' => '/admin'], function(){
 
     Route::group(['middleware' => 'admin.guest'], function(){
 
