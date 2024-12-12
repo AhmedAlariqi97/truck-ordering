@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,7 +14,7 @@ class DashboardController extends Controller
     public function index(){
 
         $totalOrders = Order::where('status','!=','cancelled')->count();
-        $totalProducts = Product::count();
+        
         $totalCustomers = User::where('role',1)->count();
 
         $totalRevenue = Order::where('status','!=','cancelled')->sum('grand_total');
@@ -50,7 +49,6 @@ class DashboardController extends Controller
 
         return view('admin.dashboard',[
             'totalOrders' => $totalOrders,
-            'totalProducts' => $totalProducts,
             'totalCustomers' => $totalCustomers,
             'totalRevenue' => $totalRevenue,
             'revenueThisMonth' => $revenueThisMonth,

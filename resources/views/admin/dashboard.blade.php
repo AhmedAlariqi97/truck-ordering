@@ -38,13 +38,12 @@
                             <div class="col-lg-4 col-6">
 								<div class="small-box card">
 									<div class="inner">
-										<h3>{{ $totalProducts }}</h3>
-										<p>Total Products</p>
+										
 									</div>
 									<div class="icon">
 										<i class="ion ion-bag"></i>
 									</div>
-									<a href="{{ route('products.index') }}" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
+									<a href="" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 
