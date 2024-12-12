@@ -62,7 +62,11 @@ class DashboardController extends Controller
     }
 
     public function logout() {
-        Auth::guard('admin')->logout();
-        return redirect()->route('admin.login');
+        $user = Auth::user();
+        if ($user && $user->role == 1) {
+            Auth::logout();
+            return redirect()->route('admin.login');
+        }
+        return redirect()->route('admin.dashboard')->with('error', 'You do not have permission to log out.');
     }
 }
