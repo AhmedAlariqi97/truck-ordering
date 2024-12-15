@@ -28,11 +28,11 @@ export default function LoginPage() {
             
             if (response.data.token) {
                 localStorage.setItem('token', response.data.token);
-                // يمكنك أيضاً تخزين معلومات المستخدم إذا كانت متوفرة في الرد
+                
                 if (response.data.user) {
                     localStorage.setItem('user', JSON.stringify(response.data.user));
                 }
-                router.push('/dashboard');
+                router.push('/account/profile');
             }
         } catch (err: any) {
             setError(err.response?.data?.message || 'حدث خطأ أثناء تسجيل الدخول');

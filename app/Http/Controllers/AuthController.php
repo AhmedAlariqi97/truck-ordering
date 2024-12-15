@@ -24,34 +24,39 @@ class AuthController extends Controller
     }
 
     public function authenticate(Request $request){
-
         $validator = Validator::make($request->all(),[
            'email' => 'required|email',
            'password' => 'required'
         ]);
 
         if($validator->passes()) {
-
-            if(Auth::attempt(['email' => $request->email,'password'=>
-                 $request->password],$request->get('remember'))) {
-
-                    // get session url when user click on btn
-                    if (session()->has('url.intended')) {
-                        return redirect(session()->get('url.intended'));
-                    }
-
-                    return redirect()->route('account.profile');
+            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                $user = Auth::user();
+                $token = $user->createToken('auth-token')->plainTextToken;
+                
+                return response()->json([
+                    'status' => true,
+                    'message' => 'تم تسجيل الدخول بنجاح',
+                    'token' => $token,
+                    'user' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'role' => $user->role // إذا كان لديك حقل للدور
+                    ]
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
+                ], 401);
             }
-            else {
-                return redirect()->route('auth.login')
-                ->withInput($request->only('email'))
-                ->with('error','Either Email/Password is incorrect');
-            }
-
         } else {
-            return redirect()->route('auth.login')
-                ->withErrors($validator)
-                ->withInput($request->only('email'));
+            return response()->json([
+                'status' => false,
+                'message' => 'بيانات غير صالحة',
+                'errors' => $validator->errors()
+            ], 422);
         }
     }
 
@@ -221,12 +226,23 @@ class AuthController extends Controller
     public function orders() {
 
         $user = Auth::user();
+        $orders = Order::where('user_id', $user->id)
+            ->orderBy('created_at', 'DESC')
+            ->get()
+            ->map(function($order) {
+                return [
+                    'id' => $order->id,
+                    'status' => $order->status,
+                    'pickup_location' => $order->pickup_location,
+                    'delivery_location' => $order->delivery_location,
+                    'created_at' => $order->created_at->format('Y-m-d H:i:s')
+                ];
+            });
 
-        $orders = Order::where('user_id',$user->id)->orderBy('created_at','DESC')->get();
-
-        $data['orders'] = $orders;
-
-        return view('auth.account.orders', $data);
+        return response()->json([
+            'status' => true,
+            'data' => $orders
+        ]);
     }
 
     // order detials
