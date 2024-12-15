@@ -198,8 +198,7 @@ class DiscountCouponsController extends Controller
         if (empty($discountCoupon)) {
 
             $request->session()->flash('error','Record not found');
-            // return redirect()->route('sub-categories.index');
-            // if the record delete it form database
+            
             return response()->json([
                 'status' => false,
                 'notFound' => true,

@@ -152,9 +152,7 @@
                 success: function(response) {
                     // to solve if the record delete it from database
                     window.location.href = "{{ route('discount-coupons.index') }}";
-                    // if (response["status"]) {
-                    //     window.location.href = "{{ route('sub-categories.index') }}";
-                    // }
+                    
                 }
             });
         }

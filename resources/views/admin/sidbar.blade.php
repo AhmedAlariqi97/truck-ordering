@@ -30,7 +30,7 @@
 							<li class="nav-item">
 								<a href="{{ route('orders.index') }}" class="nav-link">
 									<i class="nav-icon fas fa-shopping-bag"></i>
-									<p>Orders</p>
+									<p>Truck Orders</p>
 								</a>
 							</li>
 							<li class="nav-item">
