@@ -21,9 +21,19 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await api.post('/login', { email, password });
-            localStorage.setItem('token', response.data.token);
-            router.push('/dashboard');
+            const response = await api.post('/auth/login', { 
+                email, 
+                password 
+            });
+            
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+                // يمكنك أيضاً تخزين معلومات المستخدم إذا كانت متوفرة في الرد
+                if (response.data.user) {
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
+                }
+                router.push('/dashboard');
+            }
         } catch (err: any) {
             setError(err.response?.data?.message || 'حدث خطأ أثناء تسجيل الدخول');
         }
